@@ -1,0 +1,45 @@
+
+syntax = "proto3";
+
+package test;
+
+service RouteGuide {
+
+  // 简单请求
+  rpc GetUserById(IdRequest) returns (User) {}
+
+  // server-side streaming RPC
+  // 输出为流
+  rpc GetUsersByProvince(ProvinceRequest) returns (stream User) {}
+
+  // client-side streaming RPC
+  // 输入为流
+  rpc GetOldestUserByIds(stream IdRequest) returns (User) {}
+
+  // bidirectional streaming RPC
+  // 输入输出均为流
+  rpc GetUserByAsk(stream IdRequest) returns (stream User) {}
+}
+
+// 类型 属性名 = 顺序
+message IdRequest{
+  string id = 1;
+}
+
+message ProvinceRequest{
+  string province = 1;
+}
+
+message User {
+  string id = 1;
+  string name = 2;
+  int32 age = 3;
+  Address address = 4;
+}
+
+message Address {
+  string code = 1;
+  string province = 2;
+}
+
+
